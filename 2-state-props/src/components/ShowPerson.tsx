@@ -4,12 +4,12 @@ interface IShowPersonProps {
   person: IPerson;
 }
 
-export const ShowPerson = (props: IShowPersonProps) => {
+export const ShowPerson = ({ person }: IShowPersonProps) => {
   return (
     <div>
-      <h3>{props.person.name}</h3>
-      <p>{props.person.age}</p>
-      <input type="checkbox" checked={props.person.isMarried} />
+      <h3>{person.name}</h3>
+      <p>{person.age}</p>
+      <input type="checkbox" checked={person.isMarried} />
     </div>
   );
 };
