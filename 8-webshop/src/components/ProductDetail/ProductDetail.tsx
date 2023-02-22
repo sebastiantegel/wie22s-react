@@ -8,6 +8,7 @@ import "./ProductDetail.scss";
 
 export const ProductDetails = () => {
   const [product, setProduct] = useState<IProduct>();
+  const [error, setError] = useState("");
   const { addProductToCart } = useOutletContext<MyContext>();
 
   const { id } = useParams();
@@ -15,8 +16,13 @@ export const ProductDetails = () => {
   useEffect(() => {
     const getData = async () => {
       if (id) {
-        let product = await getProductById(+id);
-        setProduct(product);
+        let response = await getProductById(+id);
+
+        if (response.product) {
+          setProduct(response.product);
+        } else {
+          setError(response.error);
+        }
       }
     };
 
@@ -31,10 +37,18 @@ export const ProductDetails = () => {
 
   return (
     <>
-      <button onClick={addToCart}>Lägg i varukorg</button>
-      <h3>{product?.name}</h3>
-      <pre>{product?.description}</pre>
-      <img src={product?.imageUrl} alt={product?.name} />
+      {error !== "" ? (
+        <>
+          <h2>{error}</h2>
+        </>
+      ) : (
+        <>
+          <button onClick={addToCart}>Lägg i varukorg</button>
+          <h3>{product?.name}</h3>
+          <pre>{product?.description}</pre>
+          <img src={product?.imageUrl} alt={product?.name} />{" "}
+        </>
+      )}
     </>
   );
 };
